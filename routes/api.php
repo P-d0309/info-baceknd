@@ -29,7 +29,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('set-marks', [GeneralController::class, 'setMarks'])->name('setMarks');
 
     Route::post('student', [GeneralController::class, 'storeStudent'])->name('storeStudent');
-    Route::put('student/{id}', [GeneralController::class, 'updateStudent'])->name('updateStudent');
+    Route::post('student/{id}', [GeneralController::class, 'updateStudent'])->name('updateStudent');
     Route::delete('student/{id}', [GeneralController::class, 'deleteStudent'])->name('deleteStudent');
     Route::delete('student/{id}/permanent', [GeneralController::class, 'permanentlyDeleteStudent'])->name('permanentlyDeleteStudent');
 });

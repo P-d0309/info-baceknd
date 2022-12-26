@@ -8,6 +8,7 @@ use App\Http\Resources\SubjectsResource;
 use App\Models\Student;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class GeneralController extends Controller
 {
@@ -19,11 +20,20 @@ class GeneralController extends Controller
 
     public function storeStudent(Request $request)
     {
+        $student = new Student;
+        $student->name = $request->name;
+        $student->save();
 
+        return Response::json(['data' => $student]);
     }
 
-    public function updateStudent(Request $request)
+    public function updateStudent(Request $request, $id)
     {
+        $student = Student::findOrFail($id);
+        $student->name = $request->name;
+        $student->save();
+
+        return Response::json(['data' => $student]);
     }
 
     public function deleteStudent(Request $request, $id)
@@ -32,9 +42,10 @@ class GeneralController extends Controller
         return $this->getStudents();
     }
 
-    public function permanentlyDeleteStudent(Request $request)
+    public function permanentlyDeleteStudent(Request $request, $id)
     {
-
+        Student::where('_id', $id)->forceDelete();
+        return $this->getStudents();
     }
 
     public function getSubjects(Request $request)
