@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:sanctum',function (Request $request) {
+Route::middleware('auth:sanctum')->group(function () {
     Route::post('set-marks', [GeneralController::class, 'setMarks'])->name('setMarks');
 
     Route::post('student', [GeneralController::class, 'storeStudent'])->name('storeStudent');

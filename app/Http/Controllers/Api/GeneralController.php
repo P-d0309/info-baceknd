@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class GeneralController extends Controller
 {
-    public function getStudents(Request $request) {
+    public function getStudents() {
         $students = Student::get();
 
         return new StudentResource($students);
@@ -26,8 +26,10 @@ class GeneralController extends Controller
     {
     }
 
-    public function deleteStudent(Request $request)
+    public function deleteStudent(Request $request, $id)
     {
+        Student::where('_id', $id)->delete();
+        return $this->getStudents();
     }
 
     public function permanentlyDeleteStudent(Request $request)
