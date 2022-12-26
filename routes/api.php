@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('login', [AuthController::class, 'login'])->name('login');
-Route::get('subjects', [GeneralController::class, 'getSubjects'])->name('getSubjects');
 Route::get('students', [GeneralController::class, 'getStudents'])->name('getStudents');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\MarksRequest;
+use App\Http\Requests\StudentRequest;
 use App\Http\Resources\StudentResource;
-use App\Http\Resources\SubjectsResource;
 use App\Models\Student;
-use App\Models\Subject;
+use App\Models\StudentMarks;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
@@ -18,7 +19,7 @@ class GeneralController extends Controller
         return new StudentResource($students);
     }
 
-    public function storeStudent(Request $request)
+    public function storeStudent(StudentRequest $request)
     {
         $student = new Student;
         $student->name = $request->name;
@@ -27,7 +28,7 @@ class GeneralController extends Controller
         return Response::json(['data' => $student]);
     }
 
-    public function updateStudent(Request $request, $id)
+    public function updateStudent(StudentRequest $request, $id)
     {
         $student = Student::findOrFail($id);
         $student->name = $request->name;
@@ -36,25 +37,27 @@ class GeneralController extends Controller
         return Response::json(['data' => $student]);
     }
 
-    public function deleteStudent(Request $request, $id)
+    public function deleteStudent($id)
     {
         Student::where('_id', $id)->delete();
         return $this->getStudents();
     }
 
-    public function permanentlyDeleteStudent(Request $request, $id)
+    public function permanentlyDeleteStudent($id)
     {
         Student::where('_id', $id)->forceDelete();
         return $this->getStudents();
     }
 
-    public function getSubjects(Request $request)
-    {
-        $subjects = Subject::get();
-        return new SubjectsResource($subjects);
-    }
+    public function setMarks(MarksRequest $request) {
+        $studentMarks = new StudentMarks;
+        $studentMarks->studentID = $request->studentID;
+        $studentMarks->english = $request->english;
+        $studentMarks->maths = $request->maths;
+        $studentMarks->science = $request->science;
+        $studentMarks->gujarati = $request->gujarati;
+        $studentMarks->save();
 
-    public function setMarks() {
-
+        return Response::json(['data' => $studentMarks]);
     }
 }

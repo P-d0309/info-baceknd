@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
@@ -14,4 +13,9 @@ class Student extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function StudentMarks()
+    {
+        return $this->hasMany(StudentMarks::class);
+    }
 }
