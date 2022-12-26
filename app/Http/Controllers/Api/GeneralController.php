@@ -60,4 +60,9 @@ class GeneralController extends Controller
 
         return Response::json(['data' => $studentMarks]);
     }
+
+    public function getResult() {
+        $studentMarks = StudentMarks::with('Student')->get();
+        return new StudentResource($studentMarks);
+    }
 }

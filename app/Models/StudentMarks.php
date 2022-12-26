@@ -18,6 +18,6 @@ class StudentMarks extends Model
     ];
 
     public function Student() {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(Student::class, 'studentID');
     }
 }
