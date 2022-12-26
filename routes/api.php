@@ -24,11 +24,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
     return $request->user();
 });
+Route::get('pdf/{id}', [GeneralController::class, 'getMarksPdf'])->name('getMarksPdf');
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('get-excel', [GeneralController::class, 'getExcel'])->name('getExcel');
+    Route::get('get-pdf/{id}', [GeneralController::class, 'getMarksPdf'])->name('getMarksPdf');
     Route::post('set-marks', [GeneralController::class, 'setMarks'])->name('setMarks');
 
     Route::post('student', [GeneralController::class, 'storeStudent'])->name('storeStudent');
+
     Route::post('student/{id}', [GeneralController::class, 'updateStudent'])->name('updateStudent');
     Route::delete('student/{id}', [GeneralController::class, 'deleteStudent'])->name('deleteStudent');
     Route::delete('student/{id}/permanent', [GeneralController::class, 'permanentlyDeleteStudent'])->name('permanentlyDeleteStudent');

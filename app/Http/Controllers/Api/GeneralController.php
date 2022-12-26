@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exports\ResultExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MarksRequest;
 use App\Http\Requests\StudentRequest;
@@ -10,6 +11,8 @@ use App\Models\Student;
 use App\Models\StudentMarks;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class GeneralController extends Controller
 {
@@ -64,5 +67,19 @@ class GeneralController extends Controller
     public function getResult() {
         $studentMarks = StudentMarks::with('Student')->get();
         return new StudentResource($studentMarks);
+    }
+
+    public function getMarksPdf($id) {
+        $fileName = $id.".pdf";
+
+        Excel::store(new ResultExport($id), $fileName, 'public');
+        $data = Storage::disk('public')->url($fileName);
+        return Response::json(['data' => $data]);
+    }
+
+    public function getExcel() {
+        Excel::store(new ResultExport, 'result.xlsx', 'public');
+        $data = Storage::disk('public')->url('result.xlsx');
+        return Response::json(['data' => $data]);
     }
 }
